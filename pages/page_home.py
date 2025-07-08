@@ -27,7 +27,7 @@ class HomePage:
 
 
     def close_cooki(self):
-        self.driver.find_element(By.CLASS_NAME, "App_CookieButton__3cvqF").click()
+        self.driver.find_element(*LocatorsCollector.button_close_cooki).click()
         
     def mix(self, button_id):
         self.click_button(button_id)

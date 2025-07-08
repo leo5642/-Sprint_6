@@ -19,7 +19,9 @@ class Testbookscollector2:
         cls.driver.get(UrlCollector.url_home)
 
 
-    def test_page_order_scooter(self):
+    def test_page_order_scooter_up(self, driver):
+        self.driver.get(UrlCollector.url_home)
+
         home_page = HomePage(self.driver)
         home_order = PageOrder(self.driver)
         home_page.click_button_zakaz_up()
@@ -38,6 +40,7 @@ class Testbookscollector2:
         self.driver.switch_to.window(self.driver.window_handles[-1])
         WebDriverWait(self.driver, 10).until(EC.url_contains("dzen.ru"))
         assert "dzen.ru" in self.driver.current_url.lower()
+
         self.driver.quit()
 
 
@@ -66,8 +69,6 @@ class Testbookscollector2:
         assert "dzen.ru" in self.driver.current_url.lower()
 
         self.driver.quit()
-
-
 
     @classmethod
     def teardown_class(cls):

@@ -7,12 +7,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 import pytest
 from pages.page_home import HomePage
 from locators.locators1 import LocatorsCollector
+from locators.url import UrlCollector
 
 class Testbookscollector1:
     @classmethod
     def setup_class(cls):
         cls.driver = webdriver.Firefox()
-        cls.driver.get('https://qa-scooter.praktikum-services.ru/')
+        cls.driver.get(UrlCollector.url_home)
 
         home_page = HomePage(cls.driver)
         home_page.close_cooki()
@@ -21,7 +22,6 @@ class Testbookscollector1:
         home_page = HomePage(self.driver)
         actual_text = home_page.mix(locator)
         assert actual_text == text_use_button
-        home_page.click_logo_scooters()
         
 
     @classmethod

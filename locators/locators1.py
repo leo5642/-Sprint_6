@@ -13,7 +13,7 @@ class LocatorsCollector:
     (7, "Да, обязательно. Всем самокатов! И Москве, и Московской области.")
     ]
 
-
+    button_close_cooki = (By.CLASS_NAME, "App_CookieButton__3cvqF")
     button_zakaz_up = (By.XPATH, "//*[@id='root']/div/div/div[1]/div[2]/button[1]")
     button_zakaz_down = (By.XPATH, "//*[@id='root']/div/div/div[4]/div[2]/div[5]/button")
 
@@ -38,3 +38,4 @@ class LocatorsCollector:
     button_yes = (By.XPATH, "//*[@id='root']/div/div[2]/div[5]/div[2]/button[2]")
     good_complid_order = (By.XPATH, "/html/body/div/div/div[2]/div[5]/div[1]")
     look_order_status = (By.XPATH, "/html/body/div/div/div[2]/div[5]/div[2]/button")
+    
