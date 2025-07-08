@@ -10,20 +10,14 @@ from locators.locators1 import LocatorsCollector
 from pages.page_order_scooter import PageOrder
 from locators.url import UrlCollector
 from locators.data import AuthData
+import allure
 
-
+@pytest.mark.usefixtures("browser")
 class Testbookscollector2:
-    @classmethod
-    def setup_class(cls):
-        cls.driver = webdriver.Firefox()
-        cls.driver.get(UrlCollector.url_home)
+    @allure.step('Тестирование формы регистрации заказа скутера через ввернию кнопку заказа ')
+    def test_page_order_scooter_up(self, browser, setup_classes):
+        home_page, home_order = setup_classes
 
-
-    def test_page_order_scooter_up(self, driver):
-        self.driver.get(UrlCollector.url_home)
-
-        home_page = HomePage(self.driver)
-        home_order = PageOrder(self.driver)
         home_page.click_button_zakaz_up()
         home_order.mix_komy(AuthData.name, AuthData.last_name, AuthData.address, AuthData.metro, AuthData.number)
         home_order.mix_order(AuthData.time, AuthData.commint)
@@ -31,46 +25,33 @@ class Testbookscollector2:
         home_order.click_button_yes()
         element = home_order.text_order_good()
         assert 'Заказ оформлен' in element
-        home_order.click_look_order_status()
-
-        home_order.click_logo_scooters()
-        assert self.driver.current_url == UrlCollector.url_home
-
-        home_page.click_logo_yndex()
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-        WebDriverWait(self.driver, 10).until(EC.url_contains("dzen.ru"))
-        assert "dzen.ru" in self.driver.current_url.lower()
-
-        self.driver.quit()
 
 
-    def test_page_order_scooter_down(self):
-        self.driver = webdriver.Firefox()
-        self.driver.get(UrlCollector.url_home)
+    @allure.step('Тестирование формы регистрации заказа скутера через нижнию кнопку заказа ')
+    def test_page_order_scooter_down(self, browser, setup_classes):
+        browser.get(UrlCollector.url_home)
+        home_page, home_order = setup_classes
 
-        home_page = HomePage(self.driver)
-        home_order = PageOrder(self.driver)
-        home_page.close_cooki()
-        home_page.click_button_zakaz_down()
+        home_page.click_button_zakaz_up()
         home_order.mix_komy(AuthData.name1, AuthData.last_name1, AuthData.address1, AuthData.metro1, AuthData.number1)
         home_order.mix_order(AuthData.time1, AuthData.commint1)
 
         home_order.click_button_yes()
         element = home_order.text_order_good()
         assert 'Заказ оформлен' in element
-        home_order.click_look_order_status()
 
+    @allure.step('Тестирование перехода по логотипу скутера')
+    def test_logo_scooter(self, browser, setup_classes):
+        browser.get(UrlCollector.url_home)
+        home_page, home_order = setup_classes
         home_order.click_logo_scooters()
-        assert self.driver.current_url == UrlCollector.url_home
+        assert home_order.active_url() == UrlCollector.url_home
 
+    @allure.step('Тестирование перехода по яндекса')
+    def test_logo_yndex(self, browser, setup_classes):
+        browser.get(UrlCollector.url_home)
+        home_page, home_order = setup_classes
         home_page.click_logo_yndex()
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-        WebDriverWait(self.driver, 10).until(EC.url_contains("dzen.ru"))
-        assert "dzen.ru" in self.driver.current_url.lower()
-
-        self.driver.quit()
-
-    @classmethod
-    def teardown_class(cls):
-        if cls.driver:
-            cls.driver.quit()
+        browser.switch_to.window(browser.window_handles[-1])
+        WebDriverWait(browser, 10).until(EC.url_contains("dzen.ru"))
+        assert "dzen.ru" in home_order.active_url()

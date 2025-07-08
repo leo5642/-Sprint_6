@@ -7,37 +7,38 @@ from selenium.webdriver.support.wait import WebDriverWait
 import pytest
 from locators.locators1 import LocatorsCollector
 from locators.data import AuthData
+import allure
+from pages.base_page import BasePage
 
-class HomePage:
+class HomePage(BasePage):
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.wait = WebDriverWait(self.driver, 5)
-
+    @allure.step('Метот нажинает на стрелочку')
     def click_button(self, button_id):
-        self.driver.find_element(By.XPATH, f"//div[@id='accordion__heading-{button_id}']").click()
+        locator = (By.XPATH, f"//div[@id='accordion__heading-{button_id}']")
+        self.click(locator)
 
+    @allure.step('Метот возвращает текст активной стрелочки')
     def get_text_use_button(self, button_id):
-        element = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(
-                (By.XPATH, f"//div[@id='accordion__panel-{button_id}']")
-            )
-        )
-        return element.text
+        locator = (By.XPATH, f"//div[@id='accordion__panel-{button_id}']")
+        return self.get_text(locator)
 
-
+    @allure.step('Метот закрывает куки')
     def close_cooki(self):
-        self.driver.find_element(*LocatorsCollector.button_close_cooki).click()
-        
+        self.click(LocatorsCollector.button_close_cooki)
+    
+    @allure.step('Обедененный метот нажатия и вовращения активного текста ')
     def mix(self, button_id):
         self.click_button(button_id)
         return self.get_text_use_button(button_id)
-    
+
+    @allure.step('Метот нажимает на ввернию кнопку заказать')
     def click_button_zakaz_up(self):
-        self.driver.find_element(*LocatorsCollector.button_zakaz_up).click()
+        self.click(LocatorsCollector.button_zakaz_up)
     
+    @allure.step('Метот нажимает на нижнию кнопку заказать')
     def click_button_zakaz_down(self):
-        self.driver.find_element(*LocatorsCollector.button_zakaz_down).click()
+        self.click(LocatorsCollector.button_zakaz_down)
     
+    @allure.step('Метот нажимает на Лого яндекса')
     def click_logo_yndex(self):
-        self.driver.find_element(*LocatorsCollector.button_logo_yndex).click()
+        self.click(LocatorsCollector.button_logo_yndex)

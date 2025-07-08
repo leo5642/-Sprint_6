@@ -8,23 +8,14 @@ import pytest
 from pages.page_home import HomePage
 from locators.locators1 import LocatorsCollector
 from locators.url import UrlCollector
+from pages.page_order_scooter import PageOrder
+import allure
 
+@pytest.mark.usefixtures("browser")
 class Testbookscollector1:
-    @classmethod
-    def setup_class(cls):
-        cls.driver = webdriver.Firefox()
-        cls.driver.get(UrlCollector.url_home)
-
-        home_page = HomePage(cls.driver)
-        home_page.close_cooki()
-    @pytest.mark.parametrize("locator, text_use_button", LocatorsCollector.button_text)
-    def test_page(self, locator, text_use_button):
-        home_page = HomePage(self.driver)
+    @allure.step('Использование парометреции в тесте')
+    @pytest.mark.parametrize("locator, expected_text", LocatorsCollector.button_text)
+    def test_accordion_items(self, browser, setup_classes, locator, expected_text):
+        home_page, home_order = setup_classes
         actual_text = home_page.mix(locator)
-        assert actual_text == text_use_button
-        
-
-    @classmethod
-    def teardown_class(cls):
-        if cls.driver:
-            cls.driver.quit()
+        assert actual_text == expected_text
