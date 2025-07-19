@@ -13,7 +13,7 @@ import allure
 
 @pytest.mark.usefixtures("browser")
 class Testbookscollector1:
-    @allure.step('Использование парометреции в тесте')
+    @allure.title('Использование парометреции в тесте')
     @pytest.mark.parametrize("locator, expected_text", LocatorsCollector.button_text)
     def test_accordion_items(self, browser, setup_classes, locator, expected_text):
         home_page, home_order = setup_classes
